@@ -1,14 +1,13 @@
-import { graphql, PageProps } from 'gatsby';
+import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import queryString, { ParsedQuery } from 'query-string';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/layout';
-import ProductCard from '../../components/productCard';
+import ProductList from '../../components/productList';
 import TypeList from '../../components/typeList';
-import { bp } from '../../theme';
 
-interface IndexPageProps {
+interface IProductsProps {
   location: {
     search: string;
   };
@@ -39,19 +38,7 @@ const ContentWrapper = styled.div`
   background-color: #f7f8fa;
 `;
 
-const ProductList = styled.ul`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 12px;
-  row-gap: 24px;
-  padding: 16px;
-
-  @media (${bp.tablet}) {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-`;
-
-export default function Products({ data, location }: IndexPageProps) {
+export default function Products({ data, location }: IProductsProps) {
   const types = useMemo(() => {
     let list: string[] = [];
 
@@ -91,13 +78,8 @@ export default function Products({ data, location }: IndexPageProps) {
           selectedType={selectedType}
           category={data?.contentfulCategoryList?.category!}
         />
-        <ProductList>
-          {data?.allContentfulProduct?.nodes
-            .filter((product) => product?.productType === selectedType)
-            .map((product) => (
-              <ProductCard product={product} />
-            ))}
-        </ProductList>
+
+        <ProductList data={data} selectedType={selectedType} />
       </ContentWrapper>
     </Layout>
   );
