@@ -2,7 +2,7 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
 
-interface ProductCardProps {
+export interface ProductProps {
   product: {
     id: string;
     category: string | null;
@@ -25,6 +25,10 @@ const ProductItem = styled.li`
 const ItemTitle = styled.h5`
   margin-top: 16px;
   margin-bottom: 8px;
+
+  &:hover {
+    color: gray;
+  }
 `;
 
 const ItemPrice = styled.span`
@@ -34,9 +38,13 @@ const ItemPrice = styled.span`
 const ItemImage = styled.div`
   display: flex;
   justify-content: center;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product }: ProductProps) {
   return (
     <ProductItem key={product?.id}>
       <ItemImage>
