@@ -1,4 +1,4 @@
-import { graphql, PageProps } from 'gatsby';
+import { graphql, Link, PageProps } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
@@ -18,6 +18,8 @@ const CategoryItem = styled.li`
   width: 100%;
   flex-basis: 25%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
   background-color: lightblue;
   cursor: pointer;
@@ -51,13 +53,17 @@ export default function IndexPage({
       <CategoryList>
         {data?.allContentfulCategoryList?.nodes.map((category, i) => (
           <CategoryItem key={i}>
-            <CategoryText>
-              <p>{category?.category?.toUpperCase()}</p>
-            </CategoryText>
-            <GatsbyImage
-              image={getImage(category?.categoryImage?.gatsbyImageData!) as any}
-              alt={category?.category!}
-            />
+            <Link to={`/products/${category.slug}`}>
+              <CategoryText>
+                <p>{category?.category?.toUpperCase()}</p>
+              </CategoryText>
+              <GatsbyImage
+                image={
+                  getImage(category?.categoryImage?.gatsbyImageData!) as any
+                }
+                alt={category?.category!}
+              />
+            </Link>
           </CategoryItem>
         ))}
       </CategoryList>
@@ -67,8 +73,9 @@ export default function IndexPage({
 
 export const query = graphql`
   query CategoryList {
-    allContentfulCategoryList {
+    allContentfulCategoryList(sort: { createdAt: ASC }) {
       nodes {
+        slug
         category
         categoryImage {
           gatsbyImageData(placeholder: BLURRED)
