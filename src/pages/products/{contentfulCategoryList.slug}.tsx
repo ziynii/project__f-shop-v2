@@ -1,10 +1,19 @@
 import { graphql, PageProps } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import React from 'react';
+import queryString, { ParsedQuery } from 'query-string';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/layout';
 import ProductCard from '../../components/productCard';
+import TypeList from '../../components/typeList';
 import { bp } from '../../theme';
+
+interface IndexPageProps {
+  location: {
+    search: string;
+  };
+  data: Queries.ProductsQuery;
+}
 
 const TopImage = styled.div`
   width: 100%;
@@ -26,21 +35,41 @@ const TopImage = styled.div`
   }
 `;
 
+const ContentWrapper = styled.div`
+  background-color: #f7f8fa;
+`;
+
 const ProductList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 12px;
   row-gap: 24px;
   padding: 16px;
-  background-color: #f7f8fa;
 
   @media (${bp.tablet}) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 `;
 
-export default function Products({ data }: PageProps<Queries.ProductsQuery>) {
-  console.log(data);
+export default function Products({ data, location }: IndexPageProps) {
+  const types = useMemo(() => {
+    let list: string[] = [];
+
+    data?.allContentfulProduct?.nodes.forEach((product) => {
+      if (!list.includes(product?.productType!)) {
+        list.push(product?.productType!);
+      }
+    });
+    return list.sort(function (a, b): any {
+      if (a < b) return 1;
+      if (a > b) return -1;
+      if (a === b) return 0;
+    });
+  }, []);
+
+  const parsed: ParsedQuery<string> = queryString.parse(location.search);
+  const selectedType: string =
+    typeof parsed.type !== 'string' || !parsed.type ? types[0] : parsed.type;
 
   return (
     <Layout>
@@ -56,11 +85,20 @@ export default function Products({ data }: PageProps<Queries.ProductsQuery>) {
         />
       </TopImage>
 
-      <ProductList>
-        {data?.allContentfulProduct?.nodes.map((product) => (
-          <ProductCard product={product} />
-        ))}
-      </ProductList>
+      <ContentWrapper>
+        <TypeList
+          types={types}
+          selectedType={selectedType}
+          category={data?.contentfulCategoryList?.category!}
+        />
+        <ProductList>
+          {data?.allContentfulProduct?.nodes
+            .filter((product) => product?.productType === selectedType)
+            .map((product) => (
+              <ProductCard product={product} />
+            ))}
+        </ProductList>
+      </ContentWrapper>
     </Layout>
   );
 }
