@@ -3,14 +3,20 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '../components/layout';
+import { bp } from '../theme';
 
 const CategoryList = styled.ul`
   height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: lightpink;
   margin: 0;
+
+  @media (${bp.desktop}) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const CategoryItem = styled.li`
@@ -21,8 +27,24 @@ const CategoryItem = styled.li`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: lightblue;
   cursor: pointer;
+
+  @media (${bp.desktop}) {
+    flex-basis: auto;
+    width: 280px;
+    height: 550px;
+    display: block;
+    transition: transform 200ms ease-in-out;
+
+    .gatsby-image-wrapper-constrained {
+      height: 100%;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+      z-index: 100;
+    }
+  }
 `;
 
 const CategoryText = styled.div`
@@ -36,12 +58,18 @@ const CategoryText = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 300;
+  z-index: 50;
 
   p {
     font-size: 18px;
     font-weight: bold;
     color: white;
+  }
+
+  @media (${bp.desktop}) {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   }
 `;
 
@@ -49,7 +77,7 @@ export default function IndexPage({
   data,
 }: PageProps<Queries.CategoryListQuery>) {
   return (
-    <Layout>
+    <Layout isDefaultStyle={false}>
       <CategoryList>
         {data?.allContentfulCategoryList?.nodes.map((category, i) => (
           <CategoryItem key={i}>
