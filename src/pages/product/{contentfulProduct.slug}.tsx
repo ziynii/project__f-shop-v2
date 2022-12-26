@@ -1,16 +1,28 @@
-import { graphql, PageProps } from 'gatsby';
+import { graphql, PageProps, Link } from 'gatsby';
 import React from 'react';
 import Layout from '../../components/layout';
 import styled from 'styled-components';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { bp } from '../../theme';
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: start;
-  background-color: #f7f8fa;
-  padding: 12px 16px;
+  align-items: center;
+  height: 100%;
+  padding: 20px 16px;
+
+  @media (${bp.tablet}) {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  @media (${bp.desktop}) {
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 1140px;
+  }
 `;
 
 const ItemImage = styled.div`
@@ -18,14 +30,25 @@ const ItemImage = styled.div`
   height: 500px;
   border-radius: 8px;
   overflow: hidden;
+
+  @media (${bp.desktop}) {
+    flex-basis: 40%;
+    border-right: 1px solid #ddd;
+  }
 `;
 
 const ItemInfo = styled.div`
   width: 100%;
+  height: 100%;
   margin-top: 24px;
+
+  @media (${bp.desktop}) {
+    flex-basis: 60%;
+    padding-left: 24px;
+  }
 `;
 
-const ItemCategory = styled.span`
+const ItemCategory = styled(Link)`
   font-size: 12px;
   color: #1b1b1b;
 `;
@@ -64,7 +87,7 @@ export default function ProductDetail({
     data?.contentfulProduct!;
 
   return (
-    <Layout>
+    <Layout isDefaultStyle={true}>
       <ContentWrapper>
         <ItemImage>
           <GatsbyImage
@@ -74,7 +97,9 @@ export default function ProductDetail({
         </ItemImage>
 
         <ItemInfo>
-          <ItemCategory>{category?.toUpperCase()}</ItemCategory>
+          <ItemCategory to={`/products/${category}`}>
+            {category?.toUpperCase()}
+          </ItemCategory>
           <ItemTitle>{title}</ItemTitle>
           <ItemPrice>{price}</ItemPrice>
           <ItemDescription
