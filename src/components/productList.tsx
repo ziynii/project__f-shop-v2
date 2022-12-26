@@ -18,6 +18,10 @@ const Products = styled.ul`
   @media (${bp.tablet}) {
     grid-template-columns: 1fr 1fr 1fr;
   }
+
+  @media (${bp.desktop}) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 `;
 
 export default function ProductList({ data, selectedType }: IProductListProps) {
@@ -26,7 +30,7 @@ export default function ProductList({ data, selectedType }: IProductListProps) {
       {data?.allContentfulProduct?.nodes
         .filter((product) => product?.productType === selectedType)
         .map((product) => (
-          <ProductCard product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
     </Products>
   );
