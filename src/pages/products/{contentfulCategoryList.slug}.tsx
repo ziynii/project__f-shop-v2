@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Layout from '../../components/layout';
 import ProductList from '../../components/productList';
 import TypeList from '../../components/typeList';
+import { bp } from '../../theme';
 
 interface IProductsProps {
   location: {
@@ -31,6 +32,10 @@ const TopImage = styled.div`
     font-size: 24px;
     font-weight: bold;
     margin: 0;
+  }
+
+  @media (${bp.desktop}) {
+    height: 240px;
   }
 `;
 
@@ -59,7 +64,7 @@ export default function Products({ data, location }: IProductsProps) {
     typeof parsed.type !== 'string' || !parsed.type ? types[0] : parsed.type;
 
   return (
-    <Layout>
+    <Layout isDefaultStyle={true}>
       <TopImage>
         <p>{data?.contentfulCategoryList?.category!.toUpperCase()}</p>
         <GatsbyImage
@@ -100,6 +105,7 @@ export const query = graphql`
         title
         price
         productType
+        slug
         description {
           childMarkdownRemark {
             html
