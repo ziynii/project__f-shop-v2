@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import Layout from '../../components/layout';
 import ProductList from '../../components/productList';
 import TypeList from '../../components/typeList';
-import { bp } from '../../theme';
 
 interface IProductsProps {
   location: {
@@ -28,19 +27,19 @@ const TopImage = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 300;
-    color: white;
+    color: ${(props) => props.theme.colors.white};
     font-size: 24px;
     font-weight: bold;
     margin: 0;
   }
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     height: 240px;
   }
 `;
 
 const ContentWrapper = styled.div`
-  background-color: #f7f8fa;
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
 export default function Products({ data, location }: IProductsProps) {

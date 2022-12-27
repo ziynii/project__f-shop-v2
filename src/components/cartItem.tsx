@@ -7,7 +7,7 @@ const ItemWrapper = styled.li`
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border};
 
   &:last-child {
     border-bottom: none;
@@ -17,7 +17,7 @@ const ItemWrapper = styled.li`
 const Image = styled.div`
   width: 120px;
   height: 140px;
-  background-color: #ddd;
+  background-color: ${(props) => props.theme.colors.border};
   margin-right: 8px;
 `;
 

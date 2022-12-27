@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { bp } from '../theme';
 
 const Form = styled.form`
   margin: 48px 0;
@@ -25,20 +24,20 @@ const InputTitle = styled.label`
 const Select = styled.select`
   width: 100%;
   padding: 12px 8px;
-  background-color: white;
+  background-color: ${(props) => props.theme.colors.white};
 
-  @media (${bp.desktop}) {
-    border-color: #ddd;
+  @media (${(props) => props.theme.bp.desktop}) {
+    border-color: ${(props) => props.theme.colors.border};
   }
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 12px 8px;
-  background-color: white;
+  background-color: ${(props) => props.theme.colors.white};
 
-  @media (${bp.desktop}) {
-    border: 1px solid #ddd;
+  @media (${(props) => props.theme.bp.desktop}) {
+    border: 1px solid ${(props) => props.theme.colors.border};
   }
 `;
 
@@ -48,10 +47,10 @@ const InputButton = styled.button`
   bottom: 0;
   width: 44px;
   height: 44px;
-  background-color: black;
+  background-color: ${(props) => props.theme.colors.dark};
 
   svg {
-    color: white;
+    color: ${(props) => props.theme.colors.white};
   }
 `;
 

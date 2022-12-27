@@ -3,7 +3,6 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '../components/layout';
-import { bp } from '../theme';
 
 const CategoryList = styled.ul`
   height: calc(100vh - 80px);
@@ -12,7 +11,7 @@ const CategoryList = styled.ul`
   overflow: hidden;
   margin: 0;
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -29,7 +28,7 @@ const CategoryItem = styled.li`
   overflow: hidden;
   cursor: pointer;
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     flex-basis: auto;
     width: 280px;
     height: 550px;
@@ -63,10 +62,10 @@ const CategoryText = styled.div`
   p {
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: ${(props) => props.theme.colors.white};
   }
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }

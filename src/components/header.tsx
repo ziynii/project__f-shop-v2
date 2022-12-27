@@ -12,7 +12,7 @@ const HeaderWrapper = styled.header`
   align-items: center;
   width: 100%;
   padding: 24px 16px;
-  background-color: white;
+  background-color: ${(props) => props.theme.colors.white};
   box-shadow: 0 4px 20px rgb(63 65 80 / 30%);
   z-index: 500;
 `;

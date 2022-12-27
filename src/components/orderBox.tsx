@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { bp } from '../theme';
 import CouponForm from './couponForm';
 
 interface IOrderBoxProps {
@@ -19,10 +18,10 @@ const ToggleButton = styled.button`
   border-radius: 8px 0 0 8px;
 
   svg {
-    color: white;
+    color: ${(props) => props.theme.colors.white};
   }
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     display: none;
   }
 `;
@@ -30,11 +29,11 @@ const ToggleButton = styled.button`
 const ContentWrapper = styled.div<{ isOpenOrderBox: boolean }>`
   display: none;
   position: fixed;
-  top: 80px;
+  top: ${(props) => props.theme.headerHeight.sm};
   right: 0;
   width: 40%;
-  height: calc(100% - 80px);
-  color: white;
+  height: calc(100% - ${(props) => props.theme.headerHeight.sm});
+  color: ${(props) => props.theme.colors.white};
   background-color: #3f4150;
   padding: 12px 24px;
   transform: ${({ isOpenOrderBox }) =>
@@ -46,7 +45,7 @@ const ContentWrapper = styled.div<{ isOpenOrderBox: boolean }>`
     margin-bottom: 48px;
   }
 
-  @media (${bp.tablet}) {
+  @media (${(props) => props.theme.bp.tablet}) {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59,15 +58,15 @@ const ContentWrapper = styled.div<{ isOpenOrderBox: boolean }>`
     }
   }
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     position: relative;
     top: 0;
     height: auto;
     flex-basis: 40%;
     transform: none;
-    background-color: #f7f8fa;
-    color: black;
-    border-left: 1px solid #ddd;
+    background-color: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.dark};
+    border-left: 1px solid ${(props) => props.theme.colors.border};
   }
 `;
 
@@ -82,7 +81,7 @@ const SummaryInfo = styled.div`
 `;
 
 const TotalPrice = styled.div`
-  border-top: 1px solid white;
+  border-top: 1px solid ${(props) => props.theme.colors.white};
   margin-bottom: 48px;
 
   dl,
@@ -97,7 +96,7 @@ const TotalPrice = styled.div`
 
   span {
     font-size: 14px;
-    color: red;
+    color: ${(props) => props.theme.colors.red};
   }
 
   dl {
@@ -105,16 +104,16 @@ const TotalPrice = styled.div`
     font-weight: 700;
   }
 
-  @media (${bp.desktop}) {
-    border-color: #ddd;
+  @media (${(props) => props.theme.bp.desktop}) {
+    border-color: ${(props) => props.theme.colors.border};
   }
 `;
 
 const OrderButton = styled.button`
   width: 100%;
   height: 64px;
-  background-color: black;
-  color: white;
+  background-color: ${(props) => props.theme.colors.dark};
+  color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
   font-weight: 700;
 `;

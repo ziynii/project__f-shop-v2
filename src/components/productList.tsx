@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { bp } from '../theme';
-import ProductCard, { ProductProps } from './productCard';
+import ProductCard from './productCard';
 
 interface IProductListProps {
   data: Queries.ProductsQuery;
@@ -15,11 +14,11 @@ const Products = styled.ul`
   row-gap: 24px;
   padding: 16px;
 
-  @media (${bp.tablet}) {
+  @media (${(props) => props.theme.bp.tablet}) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 `;

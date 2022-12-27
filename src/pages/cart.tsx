@@ -3,19 +3,18 @@ import styled from 'styled-components';
 import CartItem from '../components/cartItem';
 import Layout from '../components/layout';
 import OrderBox from '../components/orderBox';
-import { bp } from '../theme';
 
 const PageWrapper = styled.div`
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     display: flex;
   }
 `;
 
 const ContentWrapper = styled.div`
-  height: calc(100vh - 80px);
+  height: calc(100vh - ${(props) => props.theme.headerHeight.sm});
   padding: 20px 16px;
 
-  @media (${bp.desktop}) {
+  @media (${(props) => props.theme.bp.desktop}) {
     flex-basis: 60%;
   }
 `;
@@ -50,9 +49,9 @@ const OrderWrapper = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #f7f8fa;
+  background-color: ${(props) => props.theme.colors.background};
 
-  @media (${bp.tablet}) {
+  @media (${(props) => props.theme.bp.tablet}) {
     display: none;
   }
 `;
@@ -63,7 +62,7 @@ const TotalPrice = styled.p`
   align-items: center;
   padding: 24px 16px;
   margin: 0;
-  border-top: 2px solid #ddd;
+  border-top: 2px solid ${(props) => props.theme.colors.border};
   font-weight: 800;
 `;
 
@@ -71,7 +70,7 @@ const OrderButton = styled.button`
   width: 100%;
   height: 60px;
   background-color: #000;
-  color: white;
+  color: ${(props) => props.theme.colors.white};
   border-radius: 4px;
 `;
 
