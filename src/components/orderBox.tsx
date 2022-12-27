@@ -8,13 +8,32 @@ interface IOrderBoxProps {
   isOpenOrderBox: boolean;
 }
 
+const ToggleButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: -32px;
+  width: 32px;
+  height: 56px;
+  transform: translateY(-50%);
+  background-color: #3f4150;
+  border-radius: 8px 0 0 8px;
+
+  svg {
+    color: white;
+  }
+
+  @media (${bp.desktop}) {
+    display: none;
+  }
+`;
+
 const ContentWrapper = styled.div<{ isOpenOrderBox: boolean }>`
   display: none;
   position: fixed;
   top: 80px;
   right: 0;
   width: 40%;
-  height: 100%;
+  height: calc(100% - 80px);
   color: white;
   background-color: #3f4150;
   padding: 12px 24px;
@@ -28,13 +47,28 @@ const ContentWrapper = styled.div<{ isOpenOrderBox: boolean }>`
   }
 
   @media (${bp.tablet}) {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    ${ToggleButton} {
+      svg {
+        transform: ${({ isOpenOrderBox }) =>
+          isOpenOrderBox ? 'rotate(180deg)' : ''};
+      }
+    }
   }
 
-	svg {
-		transform: ${({ isOpenOrderBox }) =>
-    isOpenOrderBox ? 'rotate(180deg)': ''};
-	}
+  @media (${bp.desktop}) {
+    position: relative;
+    top: 0;
+    height: auto;
+    flex-basis: 40%;
+    transform: none;
+    background-color: #f7f8fa;
+    color: black;
+    border-left: 1px solid #ddd;
+  }
 `;
 
 const SummaryInfo = styled.div`
@@ -70,6 +104,10 @@ const TotalPrice = styled.div`
     font-size: 18px;
     font-weight: 700;
   }
+
+  @media (${bp.desktop}) {
+    border-color: #ddd;
+  }
 `;
 
 const OrderButton = styled.button`
@@ -79,21 +117,6 @@ const OrderButton = styled.button`
   color: white;
   border-radius: 8px;
   font-weight: 700;
-`;
-
-const ToggleButton = styled.button`
-  position: absolute;
-  top: 50%;
-  left: -32px;
-  width: 32px;
-  height: 56px;
-  transform: translateY(-50%);
-  background-color: #3f4150;
-  border-radius: 8px 0 0 8px;
-
-  svg {
-    color: white;
-  }
 `;
 
 export default function OrderBox({

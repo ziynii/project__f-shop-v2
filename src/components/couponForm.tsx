@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bp } from '../theme';
 
 const Form = styled.form`
   margin: 48px 0;
@@ -25,20 +26,28 @@ const Select = styled.select`
   width: 100%;
   padding: 12px 8px;
   background-color: white;
+
+  @media (${bp.desktop}) {
+    border-color: #ddd;
+  }
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 12px 8px;
   background-color: white;
+
+  @media (${bp.desktop}) {
+    border: 1px solid #ddd;
+  }
 `;
 
 const InputButton = styled.button`
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 43px;
-  height: 43px;
+  width: 44px;
+  height: 44px;
   background-color: black;
 
   svg {
@@ -50,7 +59,9 @@ export default function CouponForm() {
   return (
     <Form>
       <SelectWrapper>
-        <InputTitle htmlFor="coupon-select"><p>COUPON</p></InputTitle>
+        <InputTitle htmlFor="coupon-select">
+          <p>COUPON</p>
+        </InputTitle>
         <Select name="coupons" id="coupon-select">
           <option value="select">쿠폰 선택하기</option>
           <option value="free">[첫구매] 무료배송 쿠폰</option>
@@ -58,7 +69,9 @@ export default function CouponForm() {
       </SelectWrapper>
 
       <InputWrapper>
-        <InputTitle htmlFor="code-input"><p>CODE</p></InputTitle>
+        <InputTitle htmlFor="code-input">
+          <p>CODE</p>
+        </InputTitle>
         <Input
           type="text"
           id="code-input"
