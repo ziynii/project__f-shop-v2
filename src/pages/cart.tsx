@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CartItem from '../components/cartItem';
 import Layout from '../components/layout';
+import OrderBox from '../components/orderBox';
+import { bp } from '../theme';
 
 const ContentWrapper = styled.div`
-  height: calc(100vh - 128px - 80px);
+  height: calc(100vh - 80px);
   padding: 20px 16px;
 `;
 
@@ -39,6 +41,10 @@ const OrderWrapper = styled.div`
   left: 0;
   width: 100%;
   background-color: #f7f8fa;
+
+  @media (${bp.tablet}) {
+    display: none;
+  }
 `;
 
 const TotalPrice = styled.p`
@@ -60,6 +66,8 @@ const OrderButton = styled.button`
 `;
 
 export default function Cart() {
+  const [isOpenOrderBox, setIsOpenOrderBox] = useState(false);
+
   return (
     <Layout isDefaultStyle={true}>
       <ContentWrapper>
@@ -86,10 +94,16 @@ export default function Cart() {
           <CartItem />
         </CartList>
       </ContentWrapper>
+
       <OrderWrapper>
         <TotalPrice>총 결제금액: 123123123</TotalPrice>
         <OrderButton>주문하기</OrderButton>
       </OrderWrapper>
+
+      <OrderBox
+        setIsOpenOrderBox={setIsOpenOrderBox}
+        isOpenOrderBox={isOpenOrderBox}
+      />
     </Layout>
   );
 }
