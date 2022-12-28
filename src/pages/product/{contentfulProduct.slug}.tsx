@@ -5,12 +5,14 @@ import styled from 'styled-components';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 const ContentWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
   height: 100%;
   padding: 20px 16px;
+  padding-bottom: 60px;
 
   @media (${(props) => props.theme.bp.tablet}) {
     max-width: 960px;
@@ -21,6 +23,7 @@ const ContentWrapper = styled.div`
     flex-direction: row;
     align-items: flex-start;
     max-width: 1140px;
+    padding-bottom: 20px;
   }
 `;
 
@@ -77,11 +80,26 @@ const ItemDescription = styled.pre`
   }
 `;
 
+const AddCartButton = styled.button`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  color: ${(props) => props.theme.colors.white};
+  background-color: ${(props) => props.theme.colors.dark};
+  border-radius: 4px;
+
+  @media (${(props) => props.theme.bp.desktop}) {
+    position: relative;
+    width: 50%;
+    margin-top: 28px;
+  }
+`;
+
 export default function ProductDetail({
   data,
 }: PageProps<Queries.ProductQuery>) {
-  console.log(data);
-
   const { image, title, description, category, price } =
     data?.contentfulProduct!;
 
@@ -106,6 +124,7 @@ export default function ProductDetail({
               __html: description?.childMarkdownRemark?.html!,
             }}
           />
+          <AddCartButton>장바구니에 추가</AddCartButton>
         </ItemInfo>
       </ContentWrapper>
     </Layout>
