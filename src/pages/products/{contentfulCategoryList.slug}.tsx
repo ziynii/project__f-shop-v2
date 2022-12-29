@@ -1,11 +1,13 @@
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import queryString, { ParsedQuery } from 'query-string';
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/layout';
 import ProductList from '../../components/productList';
 import TypeList from '../../components/typeList';
+import { useSetRecoilState } from 'recoil';
+import { headerGnbState } from '../../globalState';
 
 interface IProductsProps {
   location: {
@@ -43,6 +45,7 @@ const ContentWrapper = styled.div`
 `;
 
 export default function Products({ data, location }: IProductsProps) {
+  const setHeaderGnb = useSetRecoilState(headerGnbState);
   const types = useMemo(() => {
     let list: string[] = [];
 
@@ -61,6 +64,12 @@ export default function Products({ data, location }: IProductsProps) {
   const parsed: ParsedQuery<string> = queryString.parse(location.search);
   const selectedType: string =
     typeof parsed.type !== 'string' || !parsed.type ? types[0] : parsed.type;
+
+  useEffect(() => {
+    if (data) {
+      setHeaderGnb(data?.contentfulCategoryList?.category!);
+    }
+  }, []);
 
   return (
     <Layout isDefaultStyle={true}>
@@ -92,6 +101,7 @@ export default function Products({ data, location }: IProductsProps) {
 export const query = graphql`
   query Products($slug: String) {
     contentfulCategoryList(category: { eq: $slug }) {
+      slug
       category
       categoryImage {
         gatsbyImageData(placeholder: BLURRED)

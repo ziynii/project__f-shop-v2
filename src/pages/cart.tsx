@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CartItem from '../components/cartItem';
 import Layout from '../components/layout';
 import OrderBox from '../components/orderBox';
-import { useRecoilState } from 'recoil';
-import { cartItemsState, IProduct } from '../globalState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { cartItemsState, headerGnbState, IProduct } from '../globalState';
 
 const PageWrapper = styled.div`
   @media (${(props) => props.theme.bp.desktop}) {
@@ -83,6 +83,12 @@ export default function Cart() {
   const [isOpenOrderBox, setIsOpenOrderBox] = useState(false);
   const [cartItems, setCartItems] = useRecoilState<IProduct[]>(cartItemsState);
   console.log(cartItems);
+
+  const setHeaderGnb = useSetRecoilState(headerGnbState);
+
+  useEffect(() => {
+    setHeaderGnb('');
+  }, []);
   return (
     <Layout isDefaultStyle={true}>
       <PageWrapper>
