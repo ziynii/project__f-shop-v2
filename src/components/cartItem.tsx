@@ -1,6 +1,12 @@
-import { GatsbyImage } from 'gatsby-plugin-image';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { cartItemsState, IProduct } from '../globalState';
+import { useRecoilState } from 'recoil';
+
+interface ICartItemProps {
+  item: IProduct;
+}
 
 const ItemWrapper = styled.li`
   display: flex;
@@ -19,6 +25,8 @@ const Image = styled.div`
   height: 140px;
   background-color: ${(props) => props.theme.colors.border};
   margin-right: 8px;
+  overflow: hidden;
+  display: flex;
 `;
 
 const AlignBox = styled.div`
@@ -84,37 +92,56 @@ const DeleteButton = styled.button`
   width: 36px;
   height: 36px;
   background-color: transparent;
+
+  svg {
+    color: ${(props) => props.theme.colors.secondary};
+  }
+
+  &:hover {
+    svg {
+      color: ${(props) => props.theme.colors.primary};
+    }
+  }
 `;
 
 const Price = styled.span`
   font-size: 14px;
 `;
 
-export default function CartItem() {
+export default function CartItem({ item }: ICartItemProps) {
   const [quan, setQuan] = useState<number>(1);
+  const [cartItems, setCartItems] = useRecoilState<IProduct[]>(cartItemsState);
+
   const increaseQuantity = () => {
     quan === 10 ? quan : setQuan((prev) => prev + 1);
   };
   const decreaseQuantity = () => {
     quan === 1 ? quan : setQuan((prev) => prev - 1);
   };
+
+  const removeItem = () => {
+    const setItems = cartItems.filter((cartItem) => cartItem.id !== item.id);
+    setCartItems(setItems);
+  };
   return (
     <ItemWrapper>
       <AlignBox>
-        <Image />
+        <Image>
+          <GatsbyImage image={getImage(item.image!) as any} alt={item.title!} />
+        </Image>
 
         <Info>
-          <Title>title</Title>
+          <Title>{item.title}</Title>
           <Quan>
             <label htmlFor="quantity">수량: </label>
             <span onClick={decreaseQuantity}>&#45;</span>
             <input value={quan} type="text" min="0" max="10" />
             <span onClick={increaseQuantity}>+</span>
           </Quan>
-          <Price>117000원</Price>
+          <Price>{item.price}원</Price>
         </Info>
       </AlignBox>
-      <DeleteButton>
+      <DeleteButton onClick={removeItem}>
         <svg
           className="w-6 h-6"
           fill="currentColor"
