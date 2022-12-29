@@ -1,8 +1,11 @@
 import { graphql, PageProps, Link } from 'gatsby';
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../../components/layout';
 import styled from 'styled-components';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { useRecoilState } from 'recoil';
+import { cartItemsState, IProduct } from '../../globalState';
+import AddCartModal from '../../components/addCartModal';
 
 const ContentWrapper = styled.div`
   position: relative;
@@ -100,8 +103,32 @@ const AddCartButton = styled.button`
 export default function ProductDetail({
   data,
 }: PageProps<Queries.ProductQuery>) {
-  const { image, title, description, category, price } =
+  const { image, title, description, category, price, id } =
     data?.contentfulProduct!;
+  const [cartItems, setCartItems] = useRecoilState<IProduct[]>(cartItemsState);
+  const [isModal, setIsModal] = useState(false);
+
+  const onClickAddCartButton = () => {
+    const newItem = {
+      id,
+      image,
+      title,
+      description,
+      category,
+      price,
+    };
+    console.log(newItem);
+    const hasItem = cartItems.some((item) => item.id === newItem.id);
+
+    if (!hasItem) {
+      setIsModal(true);
+      setCartItems(cartItems.concat(newItem));
+    } else {
+      alert('이미 장바구니에 담긴 상품입니다.');
+    }
+  };
+
+  console.log(cartItems);
 
   return (
     <Layout isDefaultStyle={true}>
@@ -124,9 +151,13 @@ export default function ProductDetail({
               __html: description?.childMarkdownRemark?.html!,
             }}
           />
-          <AddCartButton>장바구니에 추가</AddCartButton>
+          <AddCartButton onClick={onClickAddCartButton}>
+            장바구니에 추가
+          </AddCartButton>
         </ItemInfo>
       </ContentWrapper>
+
+      {isModal && <AddCartModal setIsModal={setIsModal} />}
     </Layout>
   );
 }
