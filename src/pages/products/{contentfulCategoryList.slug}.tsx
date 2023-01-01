@@ -47,23 +47,19 @@ const ContentWrapper = styled.div`
 export default function Products({ data, location }: IProductsProps) {
   const setHeaderGnb = useSetRecoilState(headerGnbState);
   const types = useMemo(() => {
-    let list: string[] = [];
+    let list: string[] = ['All'];
 
     data?.allContentfulProduct?.nodes.forEach((product) => {
       if (!list.includes(product?.productType!)) {
         list.push(product?.productType!);
       }
     });
-    return list.sort(function (a, b): any {
-      if (a < b) return 1;
-      if (a > b) return -1;
-      if (a === b) return 0;
-    });
+    return list.sort();
   }, []);
 
   const parsed: ParsedQuery<string> = queryString.parse(location.search);
   const selectedType: string =
-    typeof parsed.type !== 'string' || !parsed.type ? types[0] : parsed.type;
+    typeof parsed.type !== 'string' || !parsed.type ? 'All' : parsed.type;
 
   useEffect(() => {
     if (data) {

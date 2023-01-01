@@ -13,24 +13,30 @@ const Products = styled.ul`
   column-gap: 12px;
   row-gap: 24px;
   padding: 16px;
+  max-width: 1040px;
+  margin: 0 auto;
 
   @media (${(props) => props.theme.bp.tablet}) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
   @media (${(props) => props.theme.bp.desktop}) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 24px;
   }
 `;
 
 export default function ProductList({ data, selectedType }: IProductListProps) {
   return (
     <Products>
-      {data?.allContentfulProduct?.nodes
-        .filter((product) => product?.productType === selectedType)
-        .map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      {selectedType === 'All'
+        ? data?.allContentfulProduct?.nodes.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        : data?.allContentfulProduct?.nodes
+            .filter((product) => product?.productType === selectedType)
+            .map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
     </Products>
   );
 }
