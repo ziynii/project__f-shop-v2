@@ -6,6 +6,7 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { useRecoilState } from 'recoil';
 import { cartItemsState, IProduct } from '../../globalState';
 import AddCartModal from '../../components/addCartModal';
+import ProductSlider from '../../productSlider';
 
 const ContentWrapper = styled.div`
   position: relative;
@@ -30,6 +31,14 @@ const ContentWrapper = styled.div`
   }
 `;
 
+const LeftSection = styled.div`
+  @media (${(props) => props.theme.bp.desktop}) {
+    flex-basis: 40%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+`;
+
 const ItemImage = styled.div`
   width: 375px;
   height: 500px;
@@ -37,12 +46,11 @@ const ItemImage = styled.div`
   overflow: hidden;
 
   @media (${(props) => props.theme.bp.desktop}) {
-    flex-basis: 40%;
     border-right: 1px solid ${(props) => props.theme.colors.border};
   }
 `;
 
-const ItemInfo = styled.div`
+const RightSection = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 24px;
@@ -91,7 +99,12 @@ const AddCartButton = styled.button`
   height: 60px;
   color: ${(props) => props.theme.colors.white};
   background-color: ${(props) => props.theme.colors.dark};
+  opacity: 0.9;
   border-radius: 4px;
+
+  &:hover {
+    opacity: 1;
+  }
 
   @media (${(props) => props.theme.bp.desktop}) {
     position: relative;
@@ -133,14 +146,18 @@ export default function ProductDetail({
   return (
     <Layout isDefaultStyle={true}>
       <ContentWrapper>
-        <ItemImage>
-          <GatsbyImage
-            image={getImage(image?.gatsbyImageData!) as any}
-            alt={title!}
-          />
-        </ItemImage>
+        <LeftSection>
+          <ItemImage>
+            <GatsbyImage
+              image={getImage(image?.gatsbyImageData!) as any}
+              alt={title!}
+            />
+          </ItemImage>
 
-        <ItemInfo>
+          <ProductSlider category={category!} itemId={id} />
+        </LeftSection>
+
+        <RightSection>
           <ItemCategory to={`/products/${category}`}>
             {category?.toUpperCase()}
           </ItemCategory>
@@ -154,7 +171,7 @@ export default function ProductDetail({
           <AddCartButton onClick={onClickAddCartButton}>
             장바구니에 추가
           </AddCartButton>
-        </ItemInfo>
+        </RightSection>
       </ContentWrapper>
 
       {isModal && <AddCartModal setIsModal={setIsModal} />}
