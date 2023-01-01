@@ -1,13 +1,14 @@
 import { graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import queryString, { ParsedQuery } from 'query-string';
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/layout';
 import ProductList from '../../components/productList';
 import TypeList from '../../components/typeList';
 import { useSetRecoilState } from 'recoil';
 import { headerGnbState } from '../../globalState';
+import Pagination from '../../components/pagination';
 
 interface IProductsProps {
   location: {
@@ -44,6 +45,8 @@ const ContentWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.background};
 `;
 
+const LIMIT = 6;
+
 export default function Products({ data, location }: IProductsProps) {
   const setHeaderGnb = useSetRecoilState(headerGnbState);
   const types = useMemo(() => {
@@ -56,14 +59,17 @@ export default function Products({ data, location }: IProductsProps) {
     });
     return list.sort();
   }, []);
-
   const parsed: ParsedQuery<string> = queryString.parse(location.search);
   const selectedType: string =
     typeof parsed.type !== 'string' || !parsed.type ? 'All' : parsed.type;
+  const [nowPage, setNowPage] = useState(1);
+  const offset = (nowPage - 1) * LIMIT;
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (data) {
       setHeaderGnb(data?.contentfulCategoryList?.category!);
+      setTotal(data?.allContentfulProduct?.nodes?.length);
     }
   }, []);
 
@@ -88,7 +94,22 @@ export default function Products({ data, location }: IProductsProps) {
           category={data?.contentfulCategoryList?.category!}
         />
 
-        <ProductList data={data} selectedType={selectedType} />
+        <ProductList
+          data={data}
+          selectedType={selectedType}
+          setTotal={setTotal}
+          offset={offset}
+          limit={LIMIT}
+        />
+
+        {total >= LIMIT && (
+          <Pagination
+            nowPage={nowPage}
+            setNowPage={setNowPage}
+            limit={LIMIT}
+            total={total}
+          />
+        )}
       </ContentWrapper>
     </Layout>
   );

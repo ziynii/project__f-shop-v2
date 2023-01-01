@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ProductCard from './productCard';
+import { IGatsbyImageData } from 'gatsby-plugin-image';
 
 interface IProductListProps {
   data: Queries.ProductsQuery;
   selectedType: string;
+  setTotal: (value: number) => void;
+  limit: number;
+  offset: number;
+}
+
+export interface IProduct {
+  id: string;
+  category: string | null;
+  title: string | null;
+  price: number | null;
+  slug: string | null;
+  productType: string | null;
+  description: {
+    childMarkdownRemark: { html: string | null } | null;
+  } | null;
+  image: {
+    gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null;
+  } | null;
 }
 
 const Products = styled.ul`
@@ -25,18 +44,44 @@ const Products = styled.ul`
   }
 `;
 
-export default function ProductList({ data, selectedType }: IProductListProps) {
+export default function ProductList({
+  data,
+  selectedType,
+  setTotal,
+  limit,
+  offset,
+}: IProductListProps) {
+  const allProducts = data?.allContentfulProduct?.nodes;
+
+  const filteredProducts = data?.allContentfulProduct?.nodes.filter(
+    (product) => product?.productType === selectedType
+  );
+
+  const setProductList = (list: IProduct[]) => {
+    return list.length >= limit
+      ? list
+          .slice(offset, offset + limit)
+          .map((product: IProduct) => (
+            <ProductCard key={product?.id} product={product} />
+          ))
+      : list.map((product: IProduct) => (
+          <ProductCard key={product?.id} product={product} />
+        ));
+  };
+
+  useEffect(() => {
+    if (selectedType === 'All') {
+      setTotal(allProducts.length);
+    } else {
+      setTotal(filteredProducts.length);
+    }
+  }, [filteredProducts]);
+
   return (
     <Products>
       {selectedType === 'All'
-        ? data?.allContentfulProduct?.nodes.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        : data?.allContentfulProduct?.nodes
-            .filter((product) => product?.productType === selectedType)
-            .map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        ? setProductList(allProducts as IProduct[])
+        : setProductList(filteredProducts as IProduct[])}
     </Products>
   );
 }

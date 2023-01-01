@@ -2,22 +2,10 @@ import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
+import { IProduct } from './productList';
 
-export interface ProductProps {
-  product: {
-    id: string;
-    category: string | null;
-    title: string | null;
-    price: number | null;
-    slug: string | null;
-    productType: string | null;
-    description: {
-      childMarkdownRemark: { html: string | null } | null;
-    } | null;
-    image: {
-      gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null;
-    } | null;
-  };
+interface IProductCardProps {
+  product: IProduct;
 }
 
 const ProductItem = styled.li`
@@ -46,8 +34,7 @@ const ItemImage = styled.div`
   }
 `;
 
-export default function ProductCard({ product }: ProductProps) {
-  console.log(product);
+export default function ProductCard({ product }: IProductCardProps) {
   return (
     <ProductItem key={product?.id}>
       <Link to={`/product/${product?.slug}`}>
