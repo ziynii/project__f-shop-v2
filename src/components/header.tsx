@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import { Link } from 'gatsby';
 import { useRecoilValue } from 'recoil';
-import { headerGnbState } from '../globalState';
+import { cartItemsState, headerGnbState } from '../globalState';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -55,6 +55,22 @@ const CartButton = styled.button`
   width: 32px;
   height: 32px;
   background-color: transparent;
+  position: relative;
+
+  span {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    color: #fff;
+    background-color: #f86d7d;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   @media (${(props) => props.theme.bp.tablet}) {
     svg {
@@ -106,6 +122,7 @@ export default function Header() {
   `);
   // const setOpenSideBar = useSetRecoilState();
   const headerGnb = useRecoilValue(headerGnbState);
+  const cartItems = useRecoilValue(cartItemsState);
 
   return (
     <HeaderWrapper>
@@ -166,6 +183,7 @@ export default function Header() {
               ></path>
             </svg>
           </Link>
+          <span>{cartItems.length > 99 ? '99+' : cartItems.length}</span>
         </CartButton>
       </AlignBox>
     </HeaderWrapper>
