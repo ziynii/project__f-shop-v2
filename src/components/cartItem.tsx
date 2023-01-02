@@ -46,23 +46,19 @@ const Info = styled.div``;
 
 const Title = styled.h4``;
 
-const Quan = styled.form`
+const Quan = styled.div`
   margin-bottom: 8px;
+  display: flex;
 
-  label {
-    display: none;
-    font-size: 14px;
-  }
-
-  input {
+  div {
     width: 40px;
     padding: 0 12px;
-    vertical-align: top;
-    text-align: center;
-    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  input,
+  div,
   span {
     border: 1px solid #ccc;
     height: 28px;
@@ -166,9 +162,8 @@ export default function CartItem({
         <Info>
           <Title>{item.title}</Title>
           <Quan>
-            <label htmlFor="quantity">수량: </label>
             <span onClick={decreaseQuantity}>&#45;</span>
-            <input value={quan} type="text" min="0" max="10" />
+            <div>{quan}</div>
             <span onClick={increaseQuantity}>+</span>
           </Quan>
           <Price>{item.price! * quan}원</Price>
