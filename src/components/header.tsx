@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import { useStaticQuery, graphql } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 import { Link } from 'gatsby';
-import { useRecoilValue } from 'recoil';
-import { cartItemsState, headerGnbState } from '../globalState';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  cartItemsState,
+  headerGnbState,
+  openSideBarState,
+} from '../globalState';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -120,14 +124,14 @@ export default function Header() {
       }
     }
   `);
-  // const setOpenSideBar = useSetRecoilState();
+  const setOpenSideBar = useSetRecoilState(openSideBarState);
   const headerGnb = useRecoilValue(headerGnbState);
   const cartItems = useRecoilValue(cartItemsState);
 
   return (
     <HeaderWrapper>
       <AlignBox>
-        <MenuButton>
+        <MenuButton onClick={() => setOpenSideBar(true)}>
           <svg
             className="w-6 h-6"
             fill="none"
