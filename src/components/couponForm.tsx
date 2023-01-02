@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface ICouponFormProps {
+  selectedCoupon: string;
+  setSelectedCoupon: (value: string) => void;
+}
+
 const Form = styled.form`
   margin: 48px 0;
 `;
@@ -54,14 +59,22 @@ const InputButton = styled.button`
   }
 `;
 
-export default function CouponForm() {
+export default function CouponForm({
+  selectedCoupon,
+  setSelectedCoupon,
+}: ICouponFormProps) {
   return (
     <Form>
       <SelectWrapper>
         <InputTitle htmlFor="coupon-select">
           <p>COUPON</p>
         </InputTitle>
-        <Select name="coupons" id="coupon-select">
+        <Select
+          name="coupons"
+          id="coupon-select"
+          value={selectedCoupon}
+          onChange={(event) => setSelectedCoupon(event?.target.value)}
+        >
           <option value="select">쿠폰 선택하기</option>
           <option value="free">[첫구매] 무료배송 쿠폰</option>
         </Select>

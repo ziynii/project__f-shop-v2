@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CouponForm from './couponForm';
 
@@ -124,26 +124,35 @@ export default function OrderBox({
   isOpenOrderBox,
   totalPrice,
 }: IOrderBoxProps) {
+  const [selectedCoupon, setSelectedCoupon] = useState('select');
+
   return (
     <ContentWrapper isOpenOrderBox={isOpenOrderBox}>
       <h2>summary</h2>
 
       <SummaryInfo>
-        <span>상품 총 1개</span>
+        <span>상품 총금액</span>
         <span>{totalPrice}원</span>
       </SummaryInfo>
 
-      <CouponForm />
+      <CouponForm
+        selectedCoupon={selectedCoupon}
+        setSelectedCoupon={setSelectedCoupon}
+      />
 
       <TotalPrice>
-        <div>
-          <span>[첫구매] 무료배송 쿠폰 적용</span>
-          <span>-3000원</span>
-        </div>
+        {selectedCoupon === 'free' && (
+          <div>
+            <span>[첫구매] 무료배송 쿠폰 적용</span>
+            <span>-3000원</span>
+          </div>
+        )}
 
         <dl>
-          <dt>TOTAL</dt>
-          <dd>{totalPrice}원</dd>
+          <dt>결제금액</dt>
+          <dd>
+            {selectedCoupon === 'free' ? totalPrice - 3000 : totalPrice}원
+          </dd>
         </dl>
       </TotalPrice>
       <OrderButton>주문하기</OrderButton>
