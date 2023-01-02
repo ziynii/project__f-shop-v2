@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import CartItem from '../components/cartItem';
+import CartItem, { priceListType } from '../components/cartItem';
 import Layout from '../components/layout';
 import OrderBox from '../components/orderBox';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { cartItemsState, headerGnbState, IProduct } from '../globalState';
 
 const PageWrapper = styled.div`
@@ -81,8 +81,12 @@ const OrderButton = styled.button`
 
 export default function Cart() {
   const [isOpenOrderBox, setIsOpenOrderBox] = useState(false);
-  const [cartItems, setCartItems] = useRecoilState<IProduct[]>(cartItemsState);
-  console.log(cartItems);
+  const cartItems = useRecoilValue<IProduct[]>(cartItemsState);
+  const [priceList, setPriceList] = useState<priceListType[]>([]);
+
+  const totalPrice = priceList
+    ?.map((item) => item.price)
+    .reduce((a, b) => a + b, 0);
 
   const setHeaderGnb = useSetRecoilState(headerGnbState);
 
@@ -96,7 +100,12 @@ export default function Cart() {
           {cartItems.length >= 1 ? (
             <CartList>
               {cartItems.map((item) => (
-                <CartItem key={item.id} item={item} />
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  setPriceList={setPriceList}
+                  priceList={priceList}
+                />
               ))}
             </CartList>
           ) : (
@@ -114,12 +123,13 @@ export default function Cart() {
           )}
         </ContentWrapper>
         <OrderWrapper>
-          <TotalPrice>총 결제금액: 123123123</TotalPrice>
+          <TotalPrice>총 결제금액: {totalPrice}</TotalPrice>
           <OrderButton>주문하기</OrderButton>
         </OrderWrapper>
         <OrderBox
           setIsOpenOrderBox={setIsOpenOrderBox}
           isOpenOrderBox={isOpenOrderBox}
+          totalPrice={totalPrice}
         />
       </PageWrapper>
     </Layout>

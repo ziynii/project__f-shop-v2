@@ -1,11 +1,18 @@
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { cartItemsState, IProduct } from '../globalState';
 import { useRecoilState } from 'recoil';
 
+export type priceListType = {
+  id: string;
+  price: number;
+};
+
 interface ICartItemProps {
   item: IProduct;
+  setPriceList: (value: any) => void;
+  priceList: priceListType[];
 }
 
 const ItemWrapper = styled.li`
@@ -108,9 +115,15 @@ const Price = styled.span`
   font-size: 14px;
 `;
 
-export default function CartItem({ item }: ICartItemProps) {
+export default function CartItem({
+  item,
+  setPriceList,
+  priceList,
+}: ICartItemProps) {
   const [quan, setQuan] = useState<number>(1);
   const [cartItems, setCartItems] = useRecoilState<IProduct[]>(cartItemsState);
+  let copyPriceList = [...priceList];
+  let findIndex = priceList.findIndex((priceItem) => priceItem.id === item.id);
 
   const increaseQuantity = () => {
     quan === 10 ? quan : setQuan((prev) => prev + 1);
@@ -122,7 +135,27 @@ export default function CartItem({ item }: ICartItemProps) {
   const removeItem = () => {
     const setItems = cartItems.filter((cartItem) => cartItem.id !== item.id);
     setCartItems(setItems);
+    copyPriceList[findIndex].price = 0;
+    setPriceList(copyPriceList);
   };
+
+  useEffect(() => {
+    if (findIndex === -1) {
+      setPriceList((prev: priceListType[]) => {
+        return [
+          ...prev,
+          {
+            id: item.id,
+            price: item.price! * quan,
+          },
+        ];
+      });
+    } else {
+      copyPriceList[findIndex].price = item?.price! * quan;
+      setPriceList(copyPriceList);
+    }
+  }, [quan]);
+
   return (
     <ItemWrapper>
       <AlignBox>
@@ -138,7 +171,7 @@ export default function CartItem({ item }: ICartItemProps) {
             <input value={quan} type="text" min="0" max="10" />
             <span onClick={increaseQuantity}>+</span>
           </Quan>
-          <Price>{item.price}원</Price>
+          <Price>{item.price! * quan}원</Price>
         </Info>
       </AlignBox>
       <DeleteButton onClick={removeItem}>

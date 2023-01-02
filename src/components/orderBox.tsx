@@ -5,6 +5,7 @@ import CouponForm from './couponForm';
 interface IOrderBoxProps {
   setIsOpenOrderBox: (value: boolean) => void;
   isOpenOrderBox: boolean;
+  totalPrice: number;
 }
 
 const ToggleButton = styled.button`
@@ -121,16 +122,15 @@ const OrderButton = styled.button`
 export default function OrderBox({
   setIsOpenOrderBox,
   isOpenOrderBox,
+  totalPrice,
 }: IOrderBoxProps) {
-  console.log(isOpenOrderBox);
-
   return (
     <ContentWrapper isOpenOrderBox={isOpenOrderBox}>
       <h2>summary</h2>
 
       <SummaryInfo>
         <span>상품 총 1개</span>
-        <span>20000000원</span>
+        <span>{totalPrice}원</span>
       </SummaryInfo>
 
       <CouponForm />
@@ -138,12 +138,12 @@ export default function OrderBox({
       <TotalPrice>
         <div>
           <span>[첫구매] 무료배송 쿠폰 적용</span>
-          <span>-&#36;3</span>
+          <span>-3000원</span>
         </div>
 
         <dl>
           <dt>TOTAL</dt>
-          <dd>200000000원</dd>
+          <dd>{totalPrice}원</dd>
         </dl>
       </TotalPrice>
       <OrderButton>주문하기</OrderButton>
