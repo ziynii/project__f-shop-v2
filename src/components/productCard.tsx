@@ -2,7 +2,7 @@ import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
-import { IProduct } from './productList';
+import { IProduct } from '../globalState';
 
 interface IProductCardProps {
   product: IProduct;

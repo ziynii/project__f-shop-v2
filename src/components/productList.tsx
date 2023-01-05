@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ProductCard from './productCard';
-import { IGatsbyImageData } from 'gatsby-plugin-image';
+import { IProduct } from '../globalState';
 
 interface IProductListProps {
   data: Queries.ProductsQuery;
@@ -9,21 +9,6 @@ interface IProductListProps {
   setTotal: (value: number) => void;
   limit: number;
   offset: number;
-}
-
-export interface IProduct {
-  id: string;
-  category: string | null;
-  title: string | null;
-  price: number | null;
-  slug: string | null;
-  productType: string | null;
-  description: {
-    childMarkdownRemark: { html: string | null } | null;
-  } | null;
-  image: {
-    gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData | null;
-  } | null;
 }
 
 const Products = styled.ul`
