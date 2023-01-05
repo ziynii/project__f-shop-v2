@@ -5,6 +5,7 @@ import Layout from '../components/layout';
 import OrderBox from '../components/orderBox';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { cartItemsState, headerGnbState, IProduct } from '../globalState';
+import OrderButton from '../components/orderButton';
 
 const PageWrapper = styled.div`
   @media (${(props) => props.theme.bp.desktop}) {
@@ -71,14 +72,6 @@ const TotalPrice = styled.p`
   font-weight: 800;
 `;
 
-const OrderButton = styled.button`
-  width: 100%;
-  height: 60px;
-  background-color: #000;
-  color: ${(props) => props.theme.colors.white};
-  border-radius: 4px;
-`;
-
 export default function Cart() {
   const [isOpenOrderBox, setIsOpenOrderBox] = useState(false);
   const cartItems = useRecoilValue<IProduct[]>(cartItemsState);
@@ -124,7 +117,7 @@ export default function Cart() {
         </ContentWrapper>
         <OrderWrapper>
           <TotalPrice>총 결제금액: {totalPrice}</TotalPrice>
-          <OrderButton>주문하기</OrderButton>
+          <OrderButton />
         </OrderWrapper>
         <OrderBox
           setIsOpenOrderBox={setIsOpenOrderBox}

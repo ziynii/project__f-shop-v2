@@ -1,7 +1,7 @@
-import { Link } from 'gatsby';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CouponForm from './couponForm';
+import OrderButton from './orderButton';
 
 interface IOrderBoxProps {
   setIsOpenOrderBox: (value: boolean) => void;
@@ -111,22 +111,6 @@ const TotalPrice = styled.div`
   }
 `;
 
-const OrderButton = styled(Link)`
-  width: 100%;
-  height: 64px;
-  background-color: ${(props) => props.theme.colors.dark};
-  color: ${(props) => props.theme.colors.white};
-  border-radius: 8px;
-  font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    color: ${(props) => props.theme.colors.white};
-  }
-`;
-
 export default function OrderBox({
   setIsOpenOrderBox,
   isOpenOrderBox,
@@ -166,7 +150,8 @@ export default function OrderBox({
           </dd>
         </dl>
       </TotalPrice>
-      <OrderButton to="/success">주문하기</OrderButton>
+
+      <OrderButton />
 
       <ToggleButton onClick={() => setIsOpenOrderBox(!isOpenOrderBox)}>
         <svg
