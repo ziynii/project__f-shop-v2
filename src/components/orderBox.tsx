@@ -1,3 +1,4 @@
+import { Link } from 'gatsby';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CouponForm from './couponForm';
@@ -110,13 +111,20 @@ const TotalPrice = styled.div`
   }
 `;
 
-const OrderButton = styled.button`
+const OrderButton = styled(Link)`
   width: 100%;
   height: 64px;
   background-color: ${(props) => props.theme.colors.dark};
   color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
   font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    color: ${(props) => props.theme.colors.white};
+  }
 `;
 
 export default function OrderBox({
@@ -132,7 +140,7 @@ export default function OrderBox({
 
       <SummaryInfo>
         <span>상품 총금액</span>
-        <span>{totalPrice}원</span>
+        <span>{totalPrice.toLocaleString('ko-KR')}원</span>
       </SummaryInfo>
 
       <CouponForm
@@ -151,11 +159,14 @@ export default function OrderBox({
         <dl>
           <dt>결제금액</dt>
           <dd>
-            {selectedCoupon === 'free' ? totalPrice - 3000 : totalPrice}원
+            {selectedCoupon === 'free'
+              ? (totalPrice - 3000).toLocaleString('ko-KR')
+              : totalPrice.toLocaleString('ko-KR')}
+            원
           </dd>
         </dl>
       </TotalPrice>
-      <OrderButton>주문하기</OrderButton>
+      <OrderButton to="/success">주문하기</OrderButton>
 
       <ToggleButton onClick={() => setIsOpenOrderBox(!isOpenOrderBox)}>
         <svg

@@ -45,7 +45,7 @@ export default function ProductCard({ product }: IProductCardProps) {
           />
         </ItemImage>
         <ItemTitle>{product?.title}</ItemTitle>
-        <ItemPrice>{product?.price}</ItemPrice>
+        <ItemPrice>{product?.price?.toLocaleString('ko-KR')}</ItemPrice>
       </Link>
     </ProductItem>
   );

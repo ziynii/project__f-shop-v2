@@ -166,7 +166,7 @@ export default function CartItem({
             <div>{quan}</div>
             <span onClick={increaseQuantity}>+</span>
           </Quan>
-          <Price>{item.price! * quan}원</Price>
+          <Price>{(item.price! * quan).toLocaleString('ko-KR')}원</Price>
         </Info>
       </AlignBox>
       <DeleteButton onClick={removeItem}>

@@ -141,8 +141,6 @@ export default function ProductDetail({
     }
   };
 
-  console.log(cartItems);
-
   return (
     <Layout isDefaultStyle={true}>
       <ContentWrapper>
@@ -162,7 +160,7 @@ export default function ProductDetail({
             {category?.toUpperCase()}
           </ItemCategory>
           <ItemTitle>{title}</ItemTitle>
-          <ItemPrice>{price}</ItemPrice>
+          <ItemPrice>{price?.toLocaleString('ko-KR')}원</ItemPrice>
           <ItemDescription
             dangerouslySetInnerHTML={{
               __html: description?.childMarkdownRemark?.html!,
