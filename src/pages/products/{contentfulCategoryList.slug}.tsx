@@ -9,6 +9,7 @@ import TypeList from '../../components/typeList';
 import { useSetRecoilState } from 'recoil';
 import { headerGnbState } from '../../globalState';
 import Pagination from '../../components/pagination';
+import SortProductSelect from '../../components/sortProductSelect';
 
 interface IProductsProps {
   location: {
@@ -43,6 +44,12 @@ const TopImage = styled.div`
 
 const ContentWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.background};
+
+  .align-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 32px 16px 0 16px;
+  }
 `;
 
 const LIMIT = 6;
@@ -63,8 +70,9 @@ export default function Products({ data, location }: IProductsProps) {
   const selectedType: string =
     typeof parsed.type !== 'string' || !parsed.type ? 'All' : parsed.type;
   const [nowPage, setNowPage] = useState(1);
-  const offset = (nowPage - 1) * LIMIT;
   const [total, setTotal] = useState(0);
+  const offset = (nowPage - 1) * LIMIT;
+  const [sortValue, setSortValue] = useState('new');
 
   useEffect(() => {
     if (data) {
@@ -88,11 +96,17 @@ export default function Products({ data, location }: IProductsProps) {
       </TopImage>
 
       <ContentWrapper>
-        <TypeList
-          types={types}
-          selectedType={selectedType}
-          category={data?.contentfulCategoryList?.category!}
-        />
+        <div className="align-box">
+          <TypeList
+            types={types}
+            selectedType={selectedType}
+            category={data?.contentfulCategoryList?.category!}
+          />
+          <SortProductSelect
+            sortValue={sortValue}
+            setSortValue={setSortValue}
+          />
+        </div>
 
         <ProductList
           data={data}
@@ -100,6 +114,8 @@ export default function Products({ data, location }: IProductsProps) {
           setTotal={setTotal}
           offset={offset}
           limit={LIMIT}
+          sortValue={sortValue}
+          setNowPage={setNowPage}
         />
 
         {total >= LIMIT && (
@@ -124,9 +140,13 @@ export const query = graphql`
         gatsbyImageData(placeholder: BLURRED)
       }
     }
-    allContentfulProduct(filter: { category: { eq: $slug } }) {
+    allContentfulProduct(
+      filter: { category: { eq: $slug } }
+      sort: { createdAt: ASC }
+    ) {
       nodes {
         id
+        createdAt(formatString: "YYYY-MM-DD hh:mm")
         category
         title
         price

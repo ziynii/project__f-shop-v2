@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProductCard from './productCard';
 import { IProduct } from '../globalState';
@@ -9,6 +9,8 @@ interface IProductListProps {
   setTotal: (value: number) => void;
   limit: number;
   offset: number;
+  sortValue: string;
+  setNowPage: (value: number) => void;
 }
 
 const Products = styled.ul`
@@ -35,38 +37,56 @@ export default function ProductList({
   setTotal,
   limit,
   offset,
+  sortValue,
+  setNowPage,
 }: IProductListProps) {
-  const allProducts = data?.allContentfulProduct?.nodes;
+  const [productsList, setProductsList] = useState<IProduct[]>([]);
+  const filteredProducts = (type: string) => {
+    if (type === 'All') {
+      return data?.allContentfulProduct?.nodes;
+    } else {
+      return data?.allContentfulProduct?.nodes.filter(
+        (product) => product?.productType === selectedType
+      );
+    }
+  };
 
-  const filteredProducts = data?.allContentfulProduct?.nodes.filter(
-    (product) => product?.productType === selectedType
-  );
+  const paginationProducts = (list: IProduct[]) => {
+    return list.length >= limit ? list.slice(offset, offset + limit) : list;
+  };
 
-  const setProductList = (list: IProduct[]) => {
-    return list.length >= limit
-      ? list
-          .slice(offset, offset + limit)
-          .map((product: IProduct) => (
-            <ProductCard key={product?.id} product={product} />
-          ))
-      : list.map((product: IProduct) => (
-          <ProductCard key={product?.id} product={product} />
-        ));
+  const sortProducts = (list: IProduct[]) => {
+    if (sortValue === 'new') {
+      list.sort((a, b) => {
+        return (
+          new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
+        );
+      });
+    } else if (sortValue === 'price-low') {
+      list.sort((a, b) => a.price! - b.price!);
+    } else if (sortValue === 'price-high') {
+      list.sort((a, b) => b.price! - a.price!);
+    }
+    return list;
   };
 
   useEffect(() => {
-    if (selectedType === 'All') {
-      setTotal(allProducts.length);
-    } else {
-      setTotal(filteredProducts.length);
-    }
-  }, [filteredProducts]);
+    const filteredList = filteredProducts(selectedType);
+    const sortList = sortProducts(filteredList as IProduct[]);
+    const pagination = paginationProducts(sortList as IProduct[]);
+    setTotal(filteredList.length);
+    setProductsList(pagination as IProduct[]);
+  }, [selectedType, sortValue, offset]);
+
+  useEffect(() => {
+    if (selectedType === 'All') setNowPage(1);
+  }, [selectedType]);
 
   return (
     <Products>
-      {selectedType === 'All'
-        ? setProductList(allProducts as IProduct[])
-        : setProductList(filteredProducts as IProduct[])}
+      {productsList.map((product: IProduct) => (
+        <ProductCard key={product?.id} product={product} />
+      ))}
     </Products>
   );
 }
