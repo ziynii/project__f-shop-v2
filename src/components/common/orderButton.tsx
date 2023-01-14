@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 import { useResetRecoilState } from 'recoil';
-import { cartItemsState } from '../globalState';
+import { cartItemsState } from '../../globalState';
 
 const OrderBtn = styled(Link)`
   width: 100%;

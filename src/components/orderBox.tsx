@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import OrderButton from './common/orderButton';
 import CouponForm from './couponForm';
-import OrderButton from './orderButton';
 
 interface IOrderBoxProps {
   setIsOpenOrderBox: (value: boolean) => void;

@@ -2,7 +2,7 @@ import { graphql, Link, useStaticQuery } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
-import { openSideBarState } from '../globalState';
+import { openSideBarState } from '../../globalState';
 
 const SideNavWrapper = styled.div`
   position: fixed;

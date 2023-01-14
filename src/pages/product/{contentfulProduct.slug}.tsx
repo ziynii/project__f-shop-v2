@@ -1,14 +1,14 @@
 import { graphql, PageProps, Link } from 'gatsby';
 import React, { useState } from 'react';
-import Layout from '../../components/layout';
+import Layout from '../../components/common/layout';
 import styled from 'styled-components';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { useRecoilState } from 'recoil';
 import { cartItemsState, IProduct } from '../../globalState';
 import AddCartModal from '../../components/addCartModal';
 import ProductSlider from '../../productSlider';
-import Seo from '../../components/Seo';
-import GoBackButton from '../../components/goBackButton';
+import Seo from '../../components/common/Seo';
+import GoBackButton from '../../components/common/goBackButton';
 
 const ContentWrapper = styled.div`
   position: relative;

@@ -8,7 +8,7 @@ import {
   cartItemsState,
   headerGnbState,
   openSideBarState,
-} from '../globalState';
+} from '../../globalState';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -150,7 +150,7 @@ export default function Header() {
         <LogoWrapper>
           <Link to="/">
             <StaticImage
-              src="../images/logo.svg"
+              src="../../images/logo.svg"
               placeholder="none"
               alt="logo"
             />

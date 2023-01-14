@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CartItem, { priceListType } from '../components/cartItem';
-import Layout from '../components/layout';
+import Layout from '../components/common/layout';
 import OrderBox from '../components/orderBox';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { cartItemsState, headerGnbState, IProduct } from '../globalState';
-import OrderButton from '../components/orderButton';
-import Seo from '../components/Seo';
+import OrderButton from '../components/common/orderButton';
+import Seo from '../components/common/Seo';
 
 const PageWrapper = styled.div`
   @media (${(props) => props.theme.bp.desktop}) {
@@ -130,4 +130,4 @@ export default function Cart() {
   );
 }
 
-export const Head = () => <Seo title='Cart' />
+export const Head = () => <Seo title="Cart" />;

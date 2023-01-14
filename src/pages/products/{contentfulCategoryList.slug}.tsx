@@ -3,14 +3,14 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import queryString, { ParsedQuery } from 'query-string';
 import React, { useMemo, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Layout from '../../components/layout';
+import Layout from '../../components/common/layout';
 import ProductList from '../../components/productList';
 import TypeList from '../../components/typeList';
 import { useSetRecoilState } from 'recoil';
 import { headerGnbState } from '../../globalState';
-import Pagination from '../../components/pagination';
+import Pagination from '../../components/common/pagination';
 import SortProductSelect from '../../components/sortProductSelect';
-import Seo from '../../components/Seo';
+import Seo from '../../components/common/Seo';
 
 interface IProductsProps {
   location: {

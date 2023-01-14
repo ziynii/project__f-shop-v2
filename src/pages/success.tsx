@@ -1,8 +1,8 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
-import Layout from '../components/layout';
-import Seo from '../components/Seo';
+import Layout from '../components/common/layout';
+import Seo from '../components/common/Seo';
 
 const ContentWrapper = styled.div`
   height: calc(100vh - ${(props) => props.theme.headerHeight.sm});
@@ -67,4 +67,4 @@ export default function Success() {
   );
 }
 
-export const Head = () => <Seo title='주문완료' />
+export const Head = () => <Seo title="주문완료" />;
