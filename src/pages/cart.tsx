@@ -6,6 +6,7 @@ import OrderBox from '../components/orderBox';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { cartItemsState, headerGnbState, IProduct } from '../globalState';
 import OrderButton from '../components/orderButton';
+import Seo from '../components/Seo';
 
 const PageWrapper = styled.div`
   @media (${(props) => props.theme.bp.desktop}) {
@@ -128,3 +129,5 @@ export default function Cart() {
     </Layout>
   );
 }
+
+export const Head = () => <Seo title='Cart' />

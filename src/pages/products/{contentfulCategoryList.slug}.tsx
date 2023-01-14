@@ -10,6 +10,7 @@ import { useSetRecoilState } from 'recoil';
 import { headerGnbState } from '../../globalState';
 import Pagination from '../../components/pagination';
 import SortProductSelect from '../../components/sortProductSelect';
+import Seo from '../../components/Seo';
 
 interface IProductsProps {
   location: {
@@ -171,3 +172,9 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }: IProductsProps) => (
+  <Seo
+    title={data?.contentfulCategoryList?.category!.toUpperCase() as string}
+  />
+);

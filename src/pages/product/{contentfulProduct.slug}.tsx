@@ -7,6 +7,8 @@ import { useRecoilState } from 'recoil';
 import { cartItemsState, IProduct } from '../../globalState';
 import AddCartModal from '../../components/addCartModal';
 import ProductSlider from '../../productSlider';
+import Seo from '../../components/Seo';
+import GoBackButton from '../../components/goBackButton';
 
 const ContentWrapper = styled.div`
   position: relative;
@@ -99,12 +101,7 @@ const AddCartButton = styled.button`
   height: 60px;
   color: ${(props) => props.theme.colors.white};
   background-color: ${(props) => props.theme.colors.dark};
-  opacity: 0.9;
   border-radius: 4px;
-
-  &:hover {
-    opacity: 1;
-  }
 
   @media (${(props) => props.theme.bp.desktop}) {
     position: relative;
@@ -130,7 +127,6 @@ export default function ProductDetail({
       category,
       price,
     };
-    console.log(newItem);
     const hasItem = cartItems.some((item) => item.id === newItem.id);
 
     if (!hasItem) {
@@ -143,6 +139,8 @@ export default function ProductDetail({
 
   return (
     <Layout isDefaultStyle={true}>
+      <GoBackButton />
+
       <ContentWrapper>
         <LeftSection>
           <ItemImage>
@@ -195,3 +193,7 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = ({ data }: PageProps<Queries.ProductQuery>) => (
+  <Seo title={data?.contentfulProduct?.title!} />
+);

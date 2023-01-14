@@ -3,6 +3,7 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import React from 'react';
 import styled from 'styled-components';
 import Layout from '../components/layout';
+import Seo from '../components/Seo';
 
 const CategoryList = styled.ul`
   height: calc(100vh - 80px);
@@ -111,3 +112,5 @@ export const query = graphql`
     }
   }
 `;
+
+export const Head = () => <Seo title="Home" />;
