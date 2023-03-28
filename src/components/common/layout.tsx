@@ -67,7 +67,7 @@ const ContentWrapper = styled.div`
   background-color: ${theme.colors.background};
 
   @media (${theme.bp.tablet}) {
-    margin-top: ${(props) => props.theme.headerHeight.lg};
+    padding-top: ${(props) => props.theme.headerHeight.lg};
   }
 `;
 
