@@ -1,49 +1,35 @@
-import * as React from "react"
-import { Link, HeadFC, PageProps } from "gatsby"
+import * as React from 'react';
+import Seo from '../components/common/Seo';
+import styled from 'styled-components';
 
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
+const ContentWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
+const Text = styled.p`
+  padding-right: 8px;
+  animation: cursor 0.5s alternate infinite;
 
-const NotFoundPage: React.FC<PageProps> = () => {
+  @keyframes cursor {
+    0% {
+      box-shadow: inset -3px 0px 0px #888;
+    }
+    100% {
+      box-shadow: inset -3px 0px 0px transparent;
+    }
+  }
+`;
+
+export default function NotFoundPage() {
   return (
-    <main style={pageStyles}>
-      <h1 style={headingStyles}>Page not found</h1>
-      <p style={paragraphStyles}>
-        Sorry 😔, we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
-      </p>
-    </main>
-  )
+    <ContentWrapper >
+      <Text>404, Page not found.</Text>
+    </ContentWrapper>
+  );
 }
 
-export default NotFoundPage
-
-export const Head: HeadFC = () => <title>Not found</title>
+export const Head = () => <Seo title="페이지를 찾을 수 없습니다" />;
